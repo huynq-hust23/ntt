@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Buddy - Người bạn đồng hành cùng sự trưởng thành</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: #FFFDF9;
+            min-height: 100vh;
+            color: #2D3436;
+            line-height: 1.6;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(-45deg, #FF9A9E, #FECFEF, #A18CD1, #FBC2EB, #2EC4B6, #FFC371);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 32px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .app-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FF9F1C, #FFC371);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: white;
+            font-size: 40px;
+            box-shadow: 0 8px 24px rgba(255, 159, 28, 0.4);
+        }
+
+        .app-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF9F1C, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .app-subtitle {
+            font-size: 16px;
+            color: #636e72;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            color: #1F2937;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #FF9F1C;
+            box-shadow: 0 0 0 4px rgba(255, 159, 28, 0.2);
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #FF9F1C, #FFC371);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-size: 17px;
+            font-weight: 700;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(255, 159, 28, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(255, 159, 28, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+            max-width: 100%;
+            background: #F9FAFB;
+        }
+
+        .dashboard.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: #FFFFFF;
+            padding: 20px 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .top-bar.theme-skin { border-bottom-color: #FF6B6B; }
+        .top-bar.theme-weight { border-bottom-color: #FF9F1C; }
+        .top-bar.theme-posture { border-bottom-color: #2EC4B6; }
+        .top-bar.theme-stress { border-bottom-color: #A18CD1; }
+
+        .greeting {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2D3436;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF9F1C, #FFC371);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(255, 159, 28, 0.3);
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 24px 20px 100px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .content-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Confession Box (Tab 1) */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 16px;
+        }
+
+        .textarea-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .journal-textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 16px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            color: #374151;
+            resize: vertical;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .journal-textarea:focus {
+            border-color: #FF9F1C;
+            box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.1);
+        }
+
+        .journal-textarea::placeholder {
+            color: #9CA3AF;
+        }
+
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .chip {
+            padding: 10px 20px;
+            background: #FFFFFF;
+            border: 2px solid #E5E7EB;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #636e72;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .chip.theme-skin {
+            background: linear-gradient(135deg, #FF9A9E, #FECFEF);
+            border-color: #FF9A9E;
+            color: white;
+        }
+
+        .chip.theme-weight {
+            background: linear-gradient(135deg, #FF9F1C, #FFC371);
+            border-color: #FF9F1C;
+            color: white;
+        }
+
+        .chip.theme-stress {
+            background: linear-gradient(135deg, #A18CD1, #FBC2EB);
+            border-color: #A18CD1;
+            color: white;
+        }
+
+        /* Roadmap Tab */
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 32px 24px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #FF9F1C, #FFC371);
+            color: white;
+            transition: all 0.5s;
+        }
+
+        .roadmap-header.theme-skin {
+            background: linear-gradient(135deg, #FF9A9E, #FECFEF);
+        }
+
+        .roadmap-header.theme-weight {
+            background: linear-gradient(135deg, #FF9F1C, #FFC371);
+        }
+
+        .roadmap-header.theme-posture {
+            background: linear-gradient(135deg, #2EC4B6, #CBF3F0);
+        }
+
+        .roadmap-header.theme-stress {
+            background: linear-gradient(135deg, #A18CD1, #FBC2EB);
+        }
+
+        .roadmap-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .roadmap-illustration {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .reframe-text {
+            font-size: 17px;
+            color: white;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #E5E7EB;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .timeline-item.locked {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .timeline-item.locked::before {
+            content: '🔒';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            z-index: 10;
+        }
+
+        .timeline-circle {
+            position: absolute;
+            left: -33px;
+            top: 4px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF9F1C, #FFC371);
+            border: 3px solid #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 159, 28, 0.3);
+        }
+
+        .timeline-item.completed .timeline-circle {
+            background: linear-gradient(135deg, #10B981, #34D399);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .timeline-item.completed .timeline-circle::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+
+        .timeline-content {
+            padding: 16px 20px;
+            background: white;
+            border-radius: 16px;
+            transition: all 0.3s;
+            border: 2px solid #F0F0F0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .timeline-item:hover .timeline-content {
+            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-color: #FF9F1C;
+        }
+
+        .timeline-item.completed .timeline-content {
+            background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+            border-color: #10B981;
+        }
+
+        .timeline-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #6B7280;
+            margin-bottom: 4px;
+        }
+
+        .timeline-text {
+            font-size: 15px;
+            color: #1F2937;
+            transition: all 0.2s;
+        }
+
+        .timeline-item.completed .timeline-text {
+            text-decoration: line-through;
+            color: #6B7280;
+        }
+
+        /* Task List Styles */
+        .task-list {
+            list-style: none;
+            margin: 8px 0 0 0;
+            padding: 0;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 8px 0;
+            transition: all 0.2s;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #D1D5DB;
+            border-radius: 6px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .task-checkbox:hover {
+            border-color: #FF9F1C;
+            background: rgba(255, 159, 28, 0.05);
+        }
+
+        .task-checkbox.checked {
+            background: #10B981;
+            border-color: #10B981;
+        }
+
+        .task-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: #9CA3AF;
+        }
+
+        .roadmap-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9CA3AF;
+        }
+
+        .roadmap-empty i {
+            font-size: 48px;
+            color: #D1D5DB;
+            margin-bottom: 16px;
+        }
+
+        .roadmap-empty p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Profile Tab */
+        .profile-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #FF9A9E, #FECFEF, #A18CD1);
+            border-radius: 24px;
+            margin-bottom: 24px;
+            color: white;
+            box-shadow: 0 8px 24px rgba(255, 154, 158, 0.4);
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid #F0F0F0;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF9F1C, #FFC371);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .btn-logout {
+            width: 100%;
+            background: #EF4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #DC2626;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #FFFFFF;
+            border-top: 1px solid #E5E7EB;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 16px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #9CA3AF;
+            padding: 8px;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            color: #FF9F1C;
+            background: rgba(255, 159, 28, 0.1);
+            border-radius: 12px;
+        }
+
+        .nav-item.active i {
+            transform: scale(1.1);
+        }
+
+        .nav-item:hover {
+            color: #FF9F1C;
+            background: rgba(255, 159, 28, 0.05);
+            border-radius: 12px;
+        }
+
+        /* Onboarding Screen */
+        .onboarding-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(-45deg, #FF9A9E, #FECFEF, #A18CD1, #FBC2EB, #2EC4B6, #FFC371);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        .onboarding-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 32px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .gender-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .gender-btn {
+            padding: 20px;
+            border: 2px solid #E5E7EB;
+            border-radius: 16px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+
+        .gender-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .gender-btn.selected {
+            border-color: #FF9F1C;
+            background: linear-gradient(135deg, rgba(255, 159, 28, 0.1), rgba(255, 195, 113, 0.1));
+            box-shadow: 0 8px 24px rgba(255, 159, 28, 0.3);
+        }
+
+        .gender-btn i {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .gender-btn.boy { color: #4361EE; }
+        .gender-btn.girl { color: #F72585; }
+
+        .gender-btn.boy.selected { border-color: #4361EE; background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(76, 201, 240, 0.1)); }
+        .gender-btn.girl.selected { border-color: #F72585; background: linear-gradient(135deg, rgba(247, 37, 133, 0.1), rgba(255, 153, 200, 0.1)); }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .form-input-small {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            color: #1F2937;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .form-input-small:focus {
+            border-color: #FF9F1C;
+            box-shadow: 0 0 0 4px rgba(255, 159, 28, 0.2);
+        }
+
+        /* BMI Profile Card */
+        .bmi-card {
+            background: linear-gradient(135deg, #FF9F1C, #FFC371);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            color: white;
+            text-align: center;
+        }
+
+        .bmi-card.underweight { background: linear-gradient(135deg, #FFBE0B, #FFC371); }
+        .bmi-card.normal { background: linear-gradient(135deg, #06D6A0, #52B788); }
+        .bmi-card.overweight { background: linear-gradient(135deg, #FB5607, #FF9F1C); }
+
+        .bmi-value {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .bmi-label {
+            font-size: 18px;
+            font-weight: 600;
+            opacity: 0.95;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .profile-stat-card {
+            background: #F9FAFB;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .profile-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF9F1C;
+            margin-bottom: 4px;
+        }
+
+        .profile-stat-label {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .btn-reset {
+            width: 100%;
+            background: #EF4444;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-reset:hover {
+            background: #DC2626;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-card, .onboarding-card {
+                padding: 36px 24px;
+            }
+
+            .content-area {
+                padding: 20px 16px 100px;
+            }
+
+            .content-card {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Onboarding Screen -->
+    <div id="onboardingScreen" class="onboarding-screen">
+        <div class="onboarding-card">
+            <div class="app-logo">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <h1 class="app-title">Body Buddy</h1>
+            <p class="app-subtitle">Hãy cho Body Buddy biết về bạn nhé!</p>
+            
+            <div class="form-group">
+                <label class="form-label">Tên của bạn</label>
+                <input type="text" id="userName" class="form-input" placeholder="Nhập tên hoặc biệt danh..." maxlength="30">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Giới tính</label>
+                <div class="gender-buttons">
+                    <div class="gender-btn boy" onclick="selectGender('boy')" id="boyBtn">
+                        <i class="fas fa-mars"></i>
+                        <div>Nam</div>
+                    </div>
+                    <div class="gender-btn girl" onclick="selectGender('girl')" id="girlBtn">
+                        <i class="fas fa-venus"></i>
+                        <div>Nữ</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Tuổi của bạn</label>
+                <input type="number" id="userAge" class="form-input" placeholder="Nhập tuổi (10-18)" min="10" max="18">
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label class="form-label">Chiều cao (cm)</label>
+                    <input type="number" id="userHeight" class="form-input-small" placeholder="VD: 160" min="100" max="250">
+                </div>
+                <div>
+                    <label class="form-label">Cân nặng (kg)</label>
+                    <input type="number" id="userWeight" class="form-input-small" placeholder="VD: 45" min="20" max="200">
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="createProfile()">
+                <i class="fas fa-rocket"></i> Tạo Hồ Sơ & Bắt Đầu
+            </button>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <!-- Top Bar -->
+        <div class="top-bar" id="topBar">
+            <div class="greeting">
+                <div class="user-avatar" id="userAvatar">?</div>
+                <span id="greetingText">Chào bạn! Hôm nay bạn cảm thấy thế nào? 🌟</span>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Tab 1: Confession -->
+            <div id="confessionTab" class="tab-content active">
+                <div class="content-card">
+                    <h2 class="section-title">Tâm sự cùng Body Buddy</h2>
+                    
+                    <div class="textarea-wrapper">
+                        <textarea 
+                            id="confessionInput" 
+                            class="journal-textarea" 
+                            placeholder="Hôm nay bạn đang lo lắng điều gì? Hãy chia sẻ với Body Buddy..."
+                            maxlength="500"
+                        ></textarea>
+                    </div>
+
+                    <div class="suggestion-chips" id="suggestionChips">
+                        <!-- Dynamically generated based on gender -->
+                    </div>
+
+                    <button class="btn-primary" onclick="analyzeConfession()">
+                        <i class="fas fa-magic"></i> Phân tích & Tìm giải pháp
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab 2: Roadmap -->
+            <div id="roadmapTab" class="tab-content">
+                <div class="content-card">
+                    <div id="roadmapContent">
+                        <div class="roadmap-empty">
+                            <i class="fas fa-route"></i>
+                            <p>Chưa có lộ trình nào.<br>Hãy chia sẻ tâm sự ở tab "Tâm sự" để nhận lộ trình 7 ngày!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Profile -->
+            <div id="profileTab" class="tab-content">
+                <div class="content-card">
+                    <h2 class="section-title">Hồ Sơ Của Bạn</h2>
+                    
+                    <div id="bmiCard" class="bmi-card">
+                        <div class="bmi-value" id="bmiValue">0</div>
+                        <div class="bmi-label" id="bmiStatus">Chỉ số BMI</div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="profile-stat-card">
+                            <div class="profile-stat-value" id="profileAge">0</div>
+                            <div class="profile-stat-label">Tuổi</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div class="profile-stat-value" id="profileHeight">0</div>
+                            <div class="profile-stat-label">Chiều cao (cm)</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div class="profile-stat-value" id="profileWeight">0</div>
+                            <div class="profile-stat-label">Cân nặng (kg)</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div class="profile-stat-value" id="completedCount">0</div>
+                            <div class="profile-stat-label">Hoàn thành</div>
+                        </div>
+                    </div>
+
+                    <button class="btn-reset" onclick="resetProfile()">
+                        <i class="fas fa-redo"></i> Nhập lại thông tin
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('confession')">
+                <i class="fas fa-pen-nib"></i>
+                <span>Tâm sự</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('roadmap')">
+                <i class="fas fa-route"></i>
+                <span>Lộ trình</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('profile')">
+                <i class="fas fa-user"></i>
+                <span>Hồ sơ</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedGender = null;
+
+        const knowledgeBase = [
+            {
+                "id": "acne",
+                "keywords": ["mụn", "da", "trứng cá", "acne"],
+                "theme": "skin",
+                "color": "#FF6B6B",
+                "imageUrl": "https://placehold.co/600x350/FF9A9E/ffffff?text=Skin+Care+Journey&font=roboto",
+                "reframe": "Mụn là khách trọ tạm thời thôi. Kỷ luật 7 ngày để tiễn khách nhé!",
+                "roadmap": [
+                    { "day": 1, "tasks": ["Giặt vỏ gối bằng nước nóng (60 độ)", "Rửa mặt nước mát sáng & tối", "Không sờ tay lên mặt (Tuyệt đối!)"] },
+                    { "day": 2, "tasks": ["Uống đủ 2.5 lít nước lọc", "Cắt giảm 100% đồ ngọt/trà sữa", "Tẩy trang kỹ trước khi ngủ"] },
+                    { "day": 3, "tasks": ["Ăn 2 quả cam/ổi (Vitamin C)", "Chườm đá lạnh lên nốt mụn sưng", "Ngủ sớm trước 22:30"] },
+                    { "day": 4, "tasks": ["Xông hơi mặt bằng nước ấm 5p", "Thay khăn mặt mới/giặt khăn", "Uống nước ép rau củ"] },
+                    { "day": 5, "tasks": ["Không soi gương quá 3 lần/ngày", "Tập thể dục 15p để toát mồ hôi", "Rửa mặt sạch sau khi tập"] },
+                    { "day": 6, "tasks": ["Dùng miếng dán mụn (nếu cần)", "Giặt lại vỏ gối lần 2", "Ngủ trưa 20 phút"] },
+                    { "day": 7, "tasks": ["Chụp ảnh check-in làn da mới", "Tổng kết: Khen ngợi bản thân!", "Tiếp tục duy trì thói quen"] }
+                ]
+            },
+            {
+                "id": "weight",
+                "keywords": ["béo", "mập", "cân", "mỡ", "diet"],
+                "theme": "body",
+                "color": "#FF9F1C",
+                "imageUrl": "https://placehold.co/600x350/FF9F1C/ffffff?text=Healthy+Fit&font=roboto",
+                "reframe": "Khỏe mạnh quan trọng hơn con số. Xây dựng thói quen tốt ngay hôm nay!",
+                "roadmap": [
+                    { "day": 1, "tasks": ["Đi bộ nhanh 20 phút", "Uống 1 cốc nước trước bữa ăn", "Không ăn vặt sau 20:00"] },
+                    { "day": 2, "tasks": ["Thay nước ngọt bằng nước lọc", "Ăn rau xanh trước khi ăn thịt", "Leo cầu thang bộ thay thang máy"] },
+                    { "day": 3, "tasks": ["Plank 30 giây (Sáng & Chiều)", "Bỏ hoàn toàn đồ chiên rán", "Ngủ đủ 8 tiếng"] },
+                    { "day": 4, "tasks": ["Tập Cardio theo Youtube 15p", "Ăn chậm nhai kỹ (20 lần/miếng)", "Đứng dậy đi lại sau mỗi 1h ngồi"] },
+                    { "day": 5, "tasks": ["Gập bụng 20 cái", "Chuẩn bị bữa trưa Healthy", "Uống trà xanh không đường"] },
+                    { "day": 6, "tasks": ["Chạy bộ nhẹ nhàng 30 phút", "Đo vòng eo (Không cân)", "Tự massage bắp chân/đùi"] },
+                    { "day": 7, "tasks": ["So sánh ảnh chụp Day 1", "Tự thưởng 1 bữa 'Cheat Meal' nhỏ", "Lên kế hoạch tuần sau"] }
+                ]
+            },
+            {
+                "id": "height",
+                "keywords": ["lùn", "thấp", "chiều cao", "ngắn", "height"],
+                "theme": "growth",
+                "color": "#4CC9F0",
+                "imageUrl": "https://placehold.co/600x350/4CC9F0/ffffff?text=Reach+High&font=roboto",
+                "reframe": "Bạn vẫn đang trong giai đoạn vàng! Nhỏ nhắn nghĩa là trọng tâm thấp, thăng bằng tốt.",
+                "roadmap": ["Giãn cơ Cobra Stretch", "Uống 1 ly sữa", "Ngủ sâu trước 22:00", "Nhảy dây 15 phút", "Chỉnh tư thế ngồi", "Phơi nắng sớm 10p", "Đo chiều cao buổi sáng"]
+            },
+            {
+                "id": "period",
+                "keywords": ["kinh", "nguyệt", "đau bụng", "dâu", "period"],
+                "theme": "cycle",
+                "color": "#F72585",
+                "imageUrl": "https://placehold.co/600x350/F72585/ffffff?text=Moon+Cycle&font=roboto",
+                "reframe": "Dấu hiệu cơ thể bạn đang hoạt động cực kỳ khỏe mạnh và đúng nhịp sinh học.",
+                "roadmap": ["Chườm ấm bụng dưới", "Uống trà gừng ấm", "Ngủ sớm hơn 1 tiếng", "Ăn Chocolate đen", "Tập Yoga nhẹ nhàng", "Ghi chép chu kỳ", "Chuẩn bị túi vệ sinh"],
+                "girlsOnly": true
+            },
+            {
+                "id": "voice",
+                "keywords": ["giọng", "ồm", "vỡ", "tiếng", "voice"],
+                "theme": "change",
+                "color": "#7209B7",
+                "imageUrl": "https://placehold.co/600x350/7209B7/ffffff?text=New+Voice&font=roboto",
+                "reframe": "Dây thanh quản đang dày lên để bạn có chất giọng 'người lớn' trầm ấm hơn.",
+                "roadmap": ["Uống nước ấm", "Hạn chế la hét", "Súc miệng nước muối", "Tập hít thở bụng", "Ngậm kẹo thảo dược", "Cho giọng nghỉ ngơi", "Ghi âm giọng nói"]
+            },
+
+            {
+                "id": "glasses",
+                "keywords": ["kính", "cận", "mắt", "glasses"],
+                "theme": "smart",
+                "color": "#4361EE",
+                "imageUrl": "https://placehold.co/600x350/4361EE/ffffff?text=Smart+Look&font=roboto",
+                "reframe": "Đeo kính khiến bạn trông tri thức hơn! Hãy biến nó thành phụ kiện thời trang.",
+                "roadmap": ["Quy tắc 20-20-20", "Lau kính sạch sẽ", "Ăn cà rốt/Vitamin A", "Massage vùng mắt", "Chỉnh khoảng cách đọc", "Ngắm cây xanh", "Thử kiểu tóc mới"]
+            },
+            {
+                "id": "stress",
+                "keywords": ["buồn", "chán", "áp lực", "stress", "học"],
+                "theme": "mind",
+                "color": "#8338EC",
+                "imageUrl": "https://placehold.co/600x350/8338EC/ffffff?text=Peaceful+Mind&font=roboto",
+                "reframe": "Áp lực giống như cục tạ, nâng được nó nghĩa là cơ bắp tinh thần đang to lên.",
+                "roadmap": ["Nghe nhạc Lofi", "Viết 3 điều biết ơn", "Off MXH 1 giờ", "Ngủ trưa 20 phút", "Đi dạo hít thở", "Mua quà vặt", "Lên kế hoạch học tập"]
+            }
+        ];
+
+        // Check if user is logged in
+        window.onload = function() {
+            const userData = localStorage.getItem('bodyBuddyUser');
+            if (userData) {
+                const user = JSON.parse(userData);
+                showDashboard(user);
+                loadRoadmap();
+            }
+        };
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById(gender === 'boy' ? 'boyBtn' : 'girlBtn').classList.add('selected');
+        }
+
+        function createProfile() {
+            const name = document.getElementById('userName').value.trim();
+            const age = parseInt(document.getElementById('userAge').value);
+            const height = parseInt(document.getElementById('userHeight').value);
+            const weight = parseInt(document.getElementById('userWeight').value);
+            
+            if (!name || !selectedGender || !age || !height || !weight) {
+                alert('Vui lòng điền đầy đủ thông tin!');
+                return;
+            }
+
+            if (age < 10 || age > 18) {
+                alert('Tuổi phải từ 10-18!');
+                return;
+            }
+            
+            // Calculate BMI
+            const bmi = (weight / Math.pow(height / 100, 2)).toFixed(1);
+            
+            const userData = {
+                name: name,
+                gender: selectedGender,
+                age: age,
+                height: height,
+                weight: weight,
+                bmi: parseFloat(bmi),
+                completedTasks: 0,
+                topicsExplored: 0,
+                joinDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem('bodyBuddyUser', JSON.stringify(userData));
+            showDashboard(userData);
+        }
+
+        function showDashboard(userData) {
+            document.getElementById('onboardingScreen').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+            
+            // Set greeting
+            const greeting = `Hi, ${userData.name}! 🌟`;
+            document.getElementById('greetingText').textContent = greeting;
+            
+            // Set avatar initial
+            document.getElementById('userAvatar').textContent = userData.name.charAt(0).toUpperCase();
+            
+            // Generate suggestion chips based on gender
+            generateSuggestionChips(userData.gender);
+            
+            // Load existing roadmap
+            loadRoadmap();
+            
+            // Update profile tab
+            updateProfileTab();
+        }
+
+        function generateSuggestionChips(gender) {
+            const chipsContainer = document.getElementById('suggestionChips');
+            let html = '';
+            
+            html += '<div class="chip theme-skin" onclick="fillSuggestion(\'Mình bị mụn nhiều\')" style="background: linear-gradient(135deg, #FF9A9E, #FECFEF); border-color: #FF9A9E; color: white;">💖 Mụn</div>';
+            html += '<div class="chip theme-weight" onclick="fillSuggestion(\'Mình lo về cân nặng\')" style="background: linear-gradient(135deg, #FF9F1C, #FFC371); border-color: #FF9F1C; color: white;">⚡ Cân nặng</div>';
+            html += '<div class="chip" onclick="fillSuggestion(\'Mình cảm thấy lùn\')" style="background: linear-gradient(135deg, #4CC9F0, #4895EF); border-color: #4CC9F0; color: white;">📏 Chiều cao</div>';
+            
+            // Only show period chip for girls
+            if (gender === 'girl') {
+                html += '<div class="chip" onclick="fillSuggestion(\'Mình bị đau bụng kinh\')" style="background: linear-gradient(135deg, #F72585, #FF99C8); border-color: #F72585; color: white;">🌙 Chu kỳ</div>';
+            }
+            
+            html += '<div class="chip" onclick="fillSuggestion(\'Mình thấy áp lực học tập\')" style="background: linear-gradient(135deg, #8338EC, #3A86FF); border-color: #8338EC; color: white;">🌸 Áp lực</div>';
+            
+            chipsContainer.innerHTML = html;
+        }
+
+        function fillSuggestion(text) {
+            document.getElementById('confessionInput').value = text;
+        }
+
+        function analyzeConfession() {
+            const input = document.getElementById('confessionInput').value.trim().toLowerCase();
+            
+            if (!input) {
+                alert('Vui lòng nhập nội dung trước khi phân tích!');
+                return;
+            }
+
+            // Find matching topic
+            let matchedTopic = null;
+            
+            for (const topic of knowledgeBase) {
+                const hasMatch = topic.keywords.some(keyword => 
+                    input.includes(keyword.toLowerCase())
+                );
+                
+                if (hasMatch) {
+                    matchedTopic = topic;
+                    break;
+                }
+            }
+
+            if (!matchedTopic) {
+                alert('Body Buddy chưa thể xử lý vấn đề này. Hãy thử từ khóa: mụn, cân nặng, hoặc áp lực.');
+                return;
+            }
+
+            // Generate roadmap
+            generateRoadmap(matchedTopic);
+            
+            // Update stats
+            updateStats();
+            
+            // Auto-switch to roadmap tab
+            switchTab('roadmap');
+            
+            // Clear input
+            document.getElementById('confessionInput').value = '';
+        }
+
+        function generateRoadmap(topic) {
+            const roadmapContent = document.getElementById('roadmapContent');
+            
+            // Update top bar theme
+            const topBar = document.getElementById('topBar');
+            topBar.className = 'top-bar theme-' + topic.theme;
+            
+            // Load existing progress
+            const savedProgress = JSON.parse(localStorage.getItem('roadmapProgress') || '{}');
+            
+            let html = `
+                <div class="roadmap-header theme-${topic.theme}">
+                    <div class="roadmap-title">Kế hoạch 7 ngày 🎯</div>
+                    <img src="${topic.imageUrl}" class="roadmap-illustration" alt="Illustration">
+                    <div class="reframe-text">
+                        ${topic.reframe}
+                    </div>
+                </div>
+                <div class="timeline">
+            `;
+            
+            topic.roadmap.forEach((dayData, index) => {
+                const dayNumber = dayData.day;
+                const isDayCompleted = isDayFullyCompleted(dayNumber, dayData.tasks.length, savedProgress);
+                const isPreviousDayCompleted = dayNumber === 1 || isDayFullyCompleted(dayNumber - 1, topic.roadmap[index - 1].tasks.length, savedProgress);
+                const isLocked = !isPreviousDayCompleted;
+                
+                html += `
+                    <div class="timeline-item ${isDayCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''}">
+                        <div class="timeline-circle">${isDayCompleted ? '' : dayNumber}</div>
+                        <div class="timeline-content">
+                            <div class="timeline-label">Ngày ${dayNumber}</div>
+                            <ul class="task-list">
+                `;
+                
+                dayData.tasks.forEach((task, taskIndex) => {
+                    const taskId = `day${dayNumber}-task${taskIndex}`;
+                    const isTaskCompleted = savedProgress[taskId] || false;
+                    
+                    html += `
+                        <li class="task-item ${isTaskCompleted ? 'completed' : ''}">
+                            <div class="task-checkbox ${isTaskCompleted ? 'checked' : ''}" 
+                                 onclick="toggleTask('${taskId}', ${dayNumber}, ${taskIndex})"></div>
+                            <div class="task-text">${task}</div>
+                        </li>
+                    `;
+                });
+                
+                html += `
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            roadmapContent.innerHTML = html;
+
+            // Save current roadmap
+            localStorage.setItem('currentRoadmap', JSON.stringify(topic));
+        }
+
+        function isDayFullyCompleted(dayNumber, totalTasks, progress) {
+            for (let i = 0; i < totalTasks; i++) {
+                const taskId = `day${dayNumber}-task${i}`;
+                if (!progress[taskId]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function loadRoadmap() {
+            const currentRoadmap = localStorage.getItem('currentRoadmap');
+            if (currentRoadmap) {
+                generateRoadmap(JSON.parse(currentRoadmap));
+            }
+        }
+
+        function toggleTask(taskId, dayNumber, taskIndex) {
+            event.stopPropagation();
+            
+            const savedProgress = JSON.parse(localStorage.getItem('roadmapProgress') || '{}');
+            const currentRoadmap = JSON.parse(localStorage.getItem('currentRoadmap'));
+            
+            if (!currentRoadmap) return;
+            
+            // Check if previous day is completed
+            if (dayNumber > 1) {
+                const previousDay = currentRoadmap.roadmap.find(d => d.day === dayNumber - 1);
+                if (previousDay && !isDayFullyCompleted(dayNumber - 1, previousDay.tasks.length, savedProgress)) {
+                    alert('⚠️ Vui lòng hoàn thành tất cả nhiệm vụ của Ngày ' + (dayNumber - 1) + ' trước!');
+                    return;
+                }
+            }
+            
+            // Toggle task completion
+            savedProgress[taskId] = !savedProgress[taskId];
+            localStorage.setItem('roadmapProgress', JSON.stringify(savedProgress));
+            
+            // Count total completed tasks
+            const completedCount = Object.values(savedProgress).filter(v => v === true).length;
+            
+            // Update user stats
+            const userData = JSON.parse(localStorage.getItem('bodyBuddyUser'));
+            userData.completedTasks = completedCount;
+            localStorage.setItem('bodyBuddyUser', JSON.stringify(userData));
+            
+            // Reload roadmap
+            generateRoadmap(currentRoadmap);
+            updateProfileTab();
+        }
+
+        function updateStats() {
+            const userData = JSON.parse(localStorage.getItem('bodyBuddyUser'));
+            userData.topicsExplored = (userData.topicsExplored || 0) + 1;
+            localStorage.setItem('bodyBuddyUser', JSON.stringify(userData));
+            updateProfileTab();
+        }
+
+        function updateProfileTab() {
+            const userData = JSON.parse(localStorage.getItem('bodyBuddyUser'));
+            
+            if (!userData.bmi) return; // Skip if old data format
+            
+            // Update BMI display
+            const bmiCard = document.getElementById('bmiCard');
+            const bmiValue = document.getElementById('bmiValue');
+            const bmiStatus = document.getElementById('bmiStatus');
+            
+            bmiValue.textContent = userData.bmi;
+            
+            if (userData.bmi < 18.5) {
+                bmiCard.className = 'bmi-card underweight';
+                bmiStatus.textContent = 'Hơi gầy 🌱';
+            } else if (userData.bmi >= 18.5 && userData.bmi <= 24.9) {
+                bmiCard.className = 'bmi-card normal';
+                bmiStatus.textContent = 'Cân đối ✨';
+            } else {
+                bmiCard.className = 'bmi-card overweight';
+                bmiStatus.textContent = 'Hơi mũm mĩm 🌟';
+            }
+            
+            // Update stats
+            document.getElementById('profileAge').textContent = userData.age;
+            document.getElementById('profileHeight').textContent = userData.height;
+            document.getElementById('profileWeight').textContent = userData.weight;
+            document.getElementById('completedCount').textContent = userData.completedTasks || 0;
+        }
+
+        function resetProfile() {
+            if (confirm('Bạn có chắc muốn nhập lại thông tin? Dữ liệu hiện tại sẽ bị xóa.')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        function switchTab(tabName) {
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+
+            if (tabName === 'profile') {
+                updateProfileTab();
+            }
+        }
+
+        // Initialize app
+        window.onload = function() {
+            const userData = JSON.parse(localStorage.getItem('bodyBuddyUser'));
+            if (userData && userData.gender && userData.bmi) {
+                showDashboard(userData);
+            }
+        };
+    </script>
+</body>
+</html>
